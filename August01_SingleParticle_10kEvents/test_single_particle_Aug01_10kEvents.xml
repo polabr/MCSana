@@ -27,7 +27,7 @@
 <!-- Changed version from v06_26_01 to v06_26_01_05 bc that's the version for MCC8.1 -->
 <!ENTITY relsim "v06_26_01_05"> <!-- change this at your own risk v06_26_01 is the official simulation MCC8 uboonecode tag as of Mar 7, 2017 -->
 <!ENTITY relreco1 "v06_26_01_05">  <!-- change this at your own risk v06_26_01 is the official reconstruction MCC8 uboonecode tag as of Mar 7, 2017 -->
-<!ENTITY relreco2 "v06_26_01_01">  <!-- change this at your own risk v06_26_01 is the official reconstruction MCC8 uboonecode tag as of Mar 7, 2017 -->
+<!ENTITY relreco2 "v06_26_01_05">  <!-- change this at your own risk v06_26_01 is the official reconstruction MCC8 uboonecode tag as of Mar 7, 2017 -->
 <!ENTITY file_type "mc">
 <!ENTITY run_type "physics">
 <!ENTITY tag "mcc8.1">
@@ -186,7 +186,7 @@
   <larsoft>
     <tag>&relreco2;</tag>
     <qual>e10:prof</qual>
-    <local>/pnfs/uboone/persistent/users/pabraten/mcs-mom-ntuple-test3.tar</local>
+    <local>/pnfs/uboone/persistent/users/pabraten/mcs-mom-ntuple-test4.tar</local>
   </larsoft>
 
   <check>0</check>
@@ -195,15 +195,11 @@
   <!-- Project stages -->
 
   <stage name="ntuple">
-    <fcl>/uboone/app/users/pabraten/mcs-mom-ntuple-test3/srcs/larreco/larreco/TrackFinder/mcsntuple.fcl</fcl>
+    <fcl>/uboone/app/users/pabraten/mcs-mom-ntuple-test4/srcs/larreco/larreco/TrackFinder/mcsntuple.fcl</fcl>
     <outdir>/pnfs/uboone/scratch/users/&user_id;/&tag;/&relreco2;/ntuple/&name;</outdir>
     <logdir>/pnfs/uboone/scratch/users/&user_id;/&tag;/&relreco2;/ntuple/&name;</logdir>
     <workdir>/pnfs/uboone/scratch/users/&user_id;/work/&tag;/&relreco2;/ntuple/&name;</workdir>
 <inputlist>/pnfs/uboone/scratch/users/pabraten/mcc8.1/v06_26_01_05/reco/test_muminus_0.1-2.0GeV_isotropic_uboone_10kEvents_noSC/files.list</inputlist>
-<!-- Change this line for every new input sample-->
-    <!-- <inputdef>prodgenie_bnb_nu_uboone_mcc7_reco2_run1_pabraten</inputdef> -->
-    <!--<maxfilesperjob>10</maxfilesperjob>-->
-<!-- Change this line to number of files in new input sample-->
     <numjobs>&number_of_jobs;</numjobs>
     <jobsub> --expected-lifetime=12h --site=Hyak_CE,Manchester,Lancaster,Clemson,FNAL_GPGrid</jobsub>
     <memory>2000</memory>

@@ -11,7 +11,7 @@
 <!-- you have to put in the total number of events you want to generate (the total, not the number per file or jobs) -->
 <!ENTITY gen_fcl_file "prod_muminus_0.1-2.0GeV_isotropic_uboone.fcl">
 <!-- this is the name of the fcl file that you want to use to generate the events, it MUST be part of the tagged release you specify in relsim-->
-<!ENTITY name "test_muminus_0.1-2.0GeV_isotropic_uboone_10kEvents_noSC">
+<!ENTITY name "test_muminus_0.1-2.0GeV_isotropic_uboone_10kEvents_withSC">
 <!-- name of the samplethat you are generating, replace the "prod" from the fcl file name with test and remove the .xml -->
 <!-- Note that the name will be used for the name of output files so please use something reasonable -->
 
@@ -81,17 +81,18 @@
   </stage>
 
   <stage name="sim">
-    <!-- <fcl>standard_g4_spacecharge_uboone.fcl</fcl> -->
+     <fcl>standard_g4_spacecharge_uboone.fcl</fcl>
     <!-- Set this is you want to turn on spacecharge -->
-    <fcl>standard_g4_nospacecharge_uboone.fcl</fcl> 
+<!--    <fcl>standard_g4_nospacecharge_uboone.fcl</fcl> -->
          <!-- Set this is you want to turn off spacecharge -->
 
     <!-- MAKE SURE TO ALSO CHANGE THE RECO FCL TO MATCH DDR SETTTINGS!!!!-->
     <!--<fcl>standard_detsim_ddr_uboone.fcl</fcl> Set this if you want to turn on ddr with noise -->
     <!-- <fcl>standard_detsim_ddr_nonoise_uboone.fcl</fcl> -->   <!-- Set this if you want to turn on ddr without noise -->
     <!-- <fcl>standard_detsim_nonoise_uboone.fcl</fcl> -->    <!-- Set this if you want DDR off and Noise Off -->
-     <fcl>standard_detsim_uboone.fcl</fcl> <!-- Set this if you want DDR off and Noise On -->
+
 <!-- NOTICE: For MCC8.1, there is NO ddr on/off setting, it is ON by default in the "standard_detsim_uboone.fcl" file!! -->
+     <fcl>standard_detsim_uboone.fcl</fcl> <!-- Set this if you want DDR off and Noise On -->
 
     <outdir>/pnfs/uboone/scratch/users/&user_id;/&tag;/&relsim;/sim/&name;</outdir>
     <logdir>/pnfs/uboone/scratch/users/&user_id;/&tag;/&relsim;/sim/&name;</logdir>
@@ -199,7 +200,7 @@
     <outdir>/pnfs/uboone/scratch/users/&user_id;/&tag;/&relreco2;/ntuple/&name;</outdir>
     <logdir>/pnfs/uboone/scratch/users/&user_id;/&tag;/&relreco2;/ntuple/&name;</logdir>
     <workdir>/pnfs/uboone/scratch/users/&user_id;/work/&tag;/&relreco2;/ntuple/&name;</workdir>
-<inputlist>/pnfs/uboone/scratch/users/pabraten/mcc8.1/v06_26_01_05/reco/test_muminus_0.1-2.0GeV_isotropic_uboone_10kEvents_noSC/files.list</inputlist>
+<inputlist>/pnfs/uboone/scratch/users/pabraten/mcc8.1/v06_26_01_05/reco/test_muminus_0.1-2.0GeV_isotropic_uboone_10kEvents_withSC/files.list</inputlist>
 <!-- Change this line for every new input sample-->
     <!-- <inputdef>prodgenie_bnb_nu_uboone_mcc7_reco2_run1_pabraten</inputdef> -->
     <!--<maxfilesperjob>10</maxfilesperjob>-->
@@ -208,7 +209,6 @@
     <jobsub> --expected-lifetime=12h --site=Hyak_CE,Manchester,Lancaster,Clemson,FNAL_GPGrid</jobsub>
     <memory>2000</memory>
   </stage>
-
 
 </project>
 

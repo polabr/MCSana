@@ -1,17 +1,19 @@
 <?xml version="1.0"?>
 
+<!-- This duplicate file of mcsntupleNewVer is if I want to run 2 separate jobs with this code at once! -->
+
 <!-- Production Project -->
 
 <!DOCTYPE project [
 <!ENTITY user_id "pabraten">
 <!-- e.g. kirby, mrmooney, etc. this is the same as your kerberos principal UID and FNAL email -->
-<!ENTITY number_of_jobs "100">
+<!ENTITY number_of_jobs "200">
 <!-- you have to put in the number of jobs which should be num events/50 but you may actually have to think and use your brain-->
 <!ENTITY number_of_events "10000">
 <!-- you have to put in the total number of events you want to generate (the total, not the number per file or jobs) -->
-<!ENTITY gen_fcl_file "prod_muminus_0.1-2.0GeV_isotropic_uboone.fcl">
+<!ENTITY gen_fcl_file "">
 <!-- this is the name of the fcl file that you want to use to generate the events, it MUST be part of the tagged release you specify in relsim-->
-<!ENTITY name "test_muminus_0.1-2.0GeV_isotropic_uboone_10kEvents_noSC">
+<!ENTITY name "mcsntupleNewVer_prodgenie_bnb_nu_cosmic_uboone_mcc7_reco2">
 <!-- name of the samplethat you are generating, replace the "prod" from the fcl file name with test and remove the .xml -->
 <!-- Note that the name will be used for the name of output files so please use something reasonable -->
 
@@ -24,13 +26,13 @@
 <!ENTITY name "test_muminus_0.1-2.0GeV_isotropic_uboone">
 
 -->
-<!-- Changed version from v06_26_01 to v06_26_01_05 bc that's the version for MCC8.1 -->
-<!ENTITY relsim "v06_26_01_05"> <!-- change this at your own risk v06_26_01 is the official simulation MCC8 uboonecode tag as of Mar 7, 2017 -->
-<!ENTITY relreco1 "v06_26_01_05">  <!-- change this at your own risk v06_26_01 is the official reconstruction MCC8 uboonecode tag as of Mar 7, 2017 -->
+
+<!ENTITY relsim "v06_26_01_01"> <!-- change this at your own risk v06_26_01 is the official simulation MCC8 uboonecode tag as of Mar 7, 2017 -->
+<!ENTITY relreco1 "v06_26_01_01">  <!-- change this at your own risk v06_26_01 is the official reconstruction MCC8 uboonecode tag as of Mar 7, 2017 -->
 <!ENTITY relreco2 "v06_26_01_01">  <!-- change this at your own risk v06_26_01 is the official reconstruction MCC8 uboonecode tag as of Mar 7, 2017 -->
 <!ENTITY file_type "mc">
 <!ENTITY run_type "physics">
-<!ENTITY tag "mcc8.1">
+<!ENTITY tag "mcc7">
 <!ENTITY prod_mode "test"> <!-- these are just test files since they are not produced by production group, please leave as test -->
 ]>
 
@@ -56,56 +58,11 @@
     <qual>e10:prof</qual>
   </larsoft>
   
-  <check>0</check>
-  <copy>0</copy>
+  <check>1</check>
+  <copy>1</copy>
 
   <!-- Project stages -->
 
-
- <!-- Made a new stage just for gen, because want to use same sample to compare space charge -->
-  <stage name="gen">
-    
-    <fcl>&gen_fcl_file;</fcl>
-    <!-- Changed all "sim" below to "gen" -->
-    <outdir>/pnfs/uboone/scratch/users/&user_id;/&tag;/&relsim;/gen/&name;</outdir>
-    <logdir>/pnfs/uboone/scratch/users/&user_id;/&tag;/&relsim;/gen/&name;</logdir>
-<!--    <bookdir>/uboone/data/users/&user_id;/book/&tag;/&relsim;/gen/&name;</bookdir> -->
-    <workdir>/pnfs/uboone/scratch/users/&user_id;/work/&tag;/&relsim;/gen/&name;</workdir>
-    <output>&name;_${PROCESS}_%tc_gen.root</output>
-    <numjobs>&number_of_jobs;</numjobs>
-    <!-- Changed from "detector-simulated" to "generated" -->
-    <datatier>generated</datatier>
-<!--    <defname>&name;_&tag;_detsim</defname> -->
-    <memory>2000</memory>
-    <jobsub> --expected-lifetime=8h --site=Hyak_CE,Manchester,Lancaster,Clemson,FNAL_GPGrid</jobsub>
-  </stage>
-
-  <stage name="sim">
-    <!-- <fcl>standard_g4_spacecharge_uboone.fcl</fcl> -->
-    <!-- Set this is you want to turn on spacecharge -->
-    <fcl>standard_g4_nospacecharge_uboone.fcl</fcl> 
-         <!-- Set this is you want to turn off spacecharge -->
-
-    <!-- MAKE SURE TO ALSO CHANGE THE RECO FCL TO MATCH DDR SETTTINGS!!!!-->
-    <!--<fcl>standard_detsim_ddr_uboone.fcl</fcl> Set this if you want to turn on ddr with noise -->
-    <!-- <fcl>standard_detsim_ddr_nonoise_uboone.fcl</fcl> -->   <!-- Set this if you want to turn on ddr without noise -->
-    <!-- <fcl>standard_detsim_nonoise_uboone.fcl</fcl> -->    <!-- Set this if you want DDR off and Noise Off -->
-     <fcl>standard_detsim_uboone.fcl</fcl> <!-- Set this if you want DDR off and Noise On -->
-<!-- NOTICE: For MCC8.1, there is NO ddr on/off setting, it is ON by default in the "standard_detsim_uboone.fcl" file!! -->
-
-    <outdir>/pnfs/uboone/scratch/users/&user_id;/&tag;/&relsim;/sim/&name;</outdir>
-    <logdir>/pnfs/uboone/scratch/users/&user_id;/&tag;/&relsim;/sim/&name;</logdir>
-    <bookdir>/uboone/data/users/&user_id;/book/&tag;/&relsim;/sim/&name;</bookdir>
-    <workdir>/pnfs/uboone/scratch/users/&user_id;/work/&tag;/&relsim;/sim/&name;</workdir>
-    <!-- Added this line so sim knows where to look (after running the gen stage)-->
-    <inputlist>/pnfs/uboone/scratch/users/pabraten/mcc8.1/v06_26_01_05/gen/test_muminus_0.1-2.0GeV_isotropic_uboone_10kEvents_noSC/files.list</inputlist>
-    <numjobs>&number_of_jobs;</numjobs>
-    <datatier>detector-simulated</datatier>
-<!--    <defname>&name;_&tag;_detsim</defname> -->
-    <memory>8000</memory>
-    <jobsub> --expected-lifetime=8h --site=Hyak_CE,Manchester,Lancaster,Clemson,FNAL_GPGrid</jobsub>
-  </stage>  
-  
   <!-- file type -->
   <filetype>&file_type;</filetype>
 
@@ -134,17 +91,14 @@
     <qual>e10:prof</qual>
   </larsoft>
 
-  <check>0</check>
+  <check>1</check>
   <copy>1</copy>
 
   <!-- Project stages -->
 
   <stage name="reco">
-<!--    <fcl>reco_uboone_mcc8_driver_ddr_stage1.fcl</fcl> --> <!-- This is reco with DDR On and Noise On-->
-
-<!-- NOTICE: For MCC8.1 ddr is set to ON by default in the below file!! Use below file for ddr ON!! -->
-     <fcl>reco_uboone_mcc8_driver_stage1.fcl</fcl> <!-- This is reco with DDR Off and Noise On-->
-
+    <fcl>reco_uboone_mcc8_driver_ddr_stage1.fcl</fcl> <!-- This is reco with DDR On and Noise On-->
+    <!-- <fcl>reco_uboone_mcc8_driver_stage1.fcl</fcl> --> <!-- This is reco with DDR Off and Noise On-->
     <!-- <fcl>reco_uboone_mcc8_driver_ddr_nonoise_stage1.fcl</fcl> --> <!-- This is reco with DDR On and Noise Off-->
     <!-- <fcl>reco_uboone_mcc8_driver_nonoise_stage1.fcl</fcl> --> <!-- This is reco with DDR Off and Noise Off-->
 
@@ -152,12 +106,13 @@
     <outdir>/pnfs/uboone/scratch/users/&user_id;/&tag;/&relreco1;/reco/&name;</outdir>
     <logdir>/pnfs/uboone/scratch/users/&user_id;/&tag;/&relreco1;/reco/&name;</logdir>
     <workdir>/pnfs/uboone/scratch/users/&user_id;/work/&tag;/&relreco1;/reco/&name;</workdir>
+    <bookdir>/uboone/data/users/&user_id;/book/&tag;/&relreco1;/reco/&name;</bookdir>
     <numjobs>&number_of_jobs;</numjobs>
     <datatier>reconstructed</datatier>
 <!--    <defname>&name;_&tag;_reco2</defname> -->
     <maxfilesperjob>1</maxfilesperjob>
-    <memory>8000</memory>
-    <jobsub> --expected-lifetime=8h --disk=80GB --site=Hyak_CE,Manchester,Lancaster,Clemson,FNAL_GPGrid</jobsub>
+    <memory>2000</memory>
+    <jobsub> --expected-lifetime=12h --site=Hyak_CE,Manchester,Lancaster,Clemson,FNAL_GPGrid</jobsub>
   </stage>
 
   <!-- file type -->
@@ -171,7 +126,7 @@
 <project name="&name;_reco2">
 
   <!-- Project size -->
-  <numevents>50</numevents>
+  <numevents>&number_of_events;</numevents>
 
   <!-- Operating System -->
   <os>SL6</os>
@@ -194,17 +149,31 @@
 
   <!-- Project stages -->
 
+  <stage name="mergeana">
+    <fcl>standard_ana_uboone.fcl</fcl>
+    <outdir>/pnfs/uboone/scratch/users/&user_id;/&tag;/&relreco2;/mergeana/&name;</outdir>
+    <logdir>/pnfs/uboone/scratch/users/&user_id;/&tag;/&relreco2;/mergeana/&name;</logdir>
+    <workdir>/pnfs/uboone/scratch/users/&user_id;/work/&tag;/&relreco2;/mergeana/&name;</workdir>
+    <bookdir>/uboone/data/users/&user_id;/book/&tag;/&relreco2;/mergeana/&name;</bookdir>
+    <numjobs>&number_of_jobs;</numjobs>
+    <datatier>reconstructed</datatier>
+    <anadatatier>root-tuple</anadatatier>
+<!--    <defname>&name;_&tag;</defname> -->
+<!--    <anadefname>&name;_&tag;_ana</anadefname> -->
+    <jobsub> --expected-lifetime=24h --site=Hyak_CE,Manchester,Lancaster,Clemson,FNAL_GPGrid</jobsub>
+    <memory>2000</memory>
+  </stage>
+
   <stage name="ntuple">
     <fcl>/uboone/app/users/pabraten/mcs-mom-ntuple-test3/srcs/larreco/larreco/TrackFinder/mcsntuple.fcl</fcl>
     <outdir>/pnfs/uboone/scratch/users/&user_id;/&tag;/&relreco2;/ntuple/&name;</outdir>
     <logdir>/pnfs/uboone/scratch/users/&user_id;/&tag;/&relreco2;/ntuple/&name;</logdir>
     <workdir>/pnfs/uboone/scratch/users/&user_id;/work/&tag;/&relreco2;/ntuple/&name;</workdir>
-<inputlist>/pnfs/uboone/scratch/users/pabraten/mcc8.1/v06_26_01_05/reco/test_muminus_0.1-2.0GeV_isotropic_uboone_10kEvents_noSC/files.list</inputlist>
 <!-- Change this line for every new input sample-->
-    <!-- <inputdef>prodgenie_bnb_nu_uboone_mcc7_reco2_run1_pabraten</inputdef> -->
-    <!--<maxfilesperjob>10</maxfilesperjob>-->
+    <inputdef>prodgenie_bnb_nu_cosmic_uboone_mcc7_reco2</inputdef>
+    <maxfilesperjob>1</maxfilesperjob>
 <!-- Change this line to number of files in new input sample-->
-    <numjobs>&number_of_jobs;</numjobs>
+    <numjobs>9444</numjobs>
     <jobsub> --expected-lifetime=12h --site=Hyak_CE,Manchester,Lancaster,Clemson,FNAL_GPGrid</jobsub>
     <memory>2000</memory>
   </stage>
