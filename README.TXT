@@ -1,1 +1,3 @@
-Initial commit on master branch. 
+To make plots (e.g. MCS bias/resolution plots), use MCS_test.py in the MCS_Technote directory. Also in this directory is a script to rerun the MCS algorithm: ELOSS_redo-mcs_mcc7_over2GeV_3mrad_2.py.
+
+The other directories here have various xmls for creating an MCS ntuple over the grid. The main one to use is probably in ntupleOnGridNewVer, which takes a SAM defined file. The others are examples of creating samples over the grid from scratch.    
